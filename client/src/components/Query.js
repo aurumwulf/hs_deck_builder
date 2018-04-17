@@ -1,9 +1,13 @@
 import React from 'react';
 import axios from 'axios';
-import { TextField } from 'material-ui';
+import { TextField, Typography } from 'material-ui';
+import Card, {
+  CardActions,
+  CardContent,
+} from 'material-ui/Card';
 
 class Query extends React.Component {
-  state = { cards: [], query: '' };
+  state = { cards: [], results: [], query: '' };
 
   componentDidMount() {
     axios.get('/api/query/').then((res) => {
@@ -18,7 +22,44 @@ class Query extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
+    this.queryCards();
     this.setState({ query: '' });
+  };
+
+  queryCards = () => {
+    const { cards, query } = this.state;
+    let results = [];
+    cards.map((card) => {
+      card.name
+        .toLowerCase()
+        .includes(query.toLowerCase())
+        ? results.push(card)
+        : null;
+    });
+    this.setState({ results: results });
+  };
+
+  displayResults = () => {
+    const { results } = this.state;
+    return results.map((result, index) => {
+      return (
+        <Card key={index + 1}>
+          {/* <CardMedia /> */}
+          <CardContent>
+            <Typography
+              gutterBottom
+              variant="headline"
+              component="h2">
+              {result.name}
+            </Typography>
+            <Typography component="p">
+              {result.flavor}
+            </Typography>
+          </CardContent>
+          <CardActions />
+        </Card>
+      );
+    });
   };
 
   render() {
@@ -30,12 +71,13 @@ class Query extends React.Component {
             autoFocus
             fullWidth
             name="query"
-            placeholder="(e.g. Grim Patron, Ultimate Infestation, Shudderwock and etc.)"
+            placeholder="(e.g. Alexstrasza, Grim Patron, Kazakus, and etc.)"
             label="Search through the Innkeeper's Hearthstone collection..."
             value={this.state.query}
             onChange={this.handleChange}
           />
         </form>
+        {this.displayResults()}
       </div>
     );
   }
