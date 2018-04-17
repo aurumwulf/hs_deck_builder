@@ -10,7 +10,7 @@ ruby '2.5.0'
 gem 'rails', '~> 5.1.6'
 gem 'pg', '>= 0.18', '< 2.0'
 gem 'puma', '~> 3.7'
-
+gem 'httparty'
 
 group :development, :test do
   gem 'pry'

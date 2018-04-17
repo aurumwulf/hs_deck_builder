@@ -1,18 +1,13 @@
 import React from 'react';
-import { indigo } from 'material-ui/colors';
-import { AppBar, Toolbar, Typography } from 'material-ui';
-
-const primary = indigo[500];
+import NavBar from './NavBar';
+import Query from './Query';
 
 const App = () => {
   return (
-    <AppBar position="static" color="primary">
-      <Toolbar>
-        <Typography variant="title" color="inherit">
-          Hearthstone Deck Builder
-        </Typography>
-      </Toolbar>
-    </AppBar>
+    <div>
+      <NavBar />
+      <Query />
+    </div>
   );
 };
 
