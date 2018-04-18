@@ -1,14 +1,13 @@
 import React from 'react';
 import axios from 'axios';
+import Card from './Card';
 import {
   Button,
   Grid,
-  Paper,
   Popover,
   TextField,
   Typography,
 } from 'material-ui';
-import Card, { CardMedia } from 'material-ui/Card';
 import List, {
   ListItem,
   ListItemText,
@@ -22,8 +21,6 @@ class Dashboard extends React.Component {
     results: [],
     query: '',
     toggleQuery: false,
-    anchorEl: null,
-    popperOpen: false,
   };
 
   componentDidMount() {
@@ -41,22 +38,6 @@ class Dashboard extends React.Component {
     e.preventDefault();
     this.queryCards();
     this.setState({ query: '', toggleQuery: true });
-  };
-
-  handlePopoverOpen = (e) => {
-    this.setState({ anchorEl: e.target });
-  };
-
-  handlePopoverClose = () => {
-    this.setState({ anchorEl: null });
-  };
-
-  handlePopperOpen = () => {
-    this.setState({ popperOpen: true });
-  };
-
-  handlePopperClose = () => {
-    this.setState({ popperOpen: false });
   };
 
   queryCards = () => {
@@ -86,7 +67,6 @@ class Dashboard extends React.Component {
 
   displayResults = () => {
     const { results, anchorEl, popperOpen } = this.state;
-    const open = !!anchorEl;
 
     return (
       <Grid item xs={6} sm={3}>
@@ -97,45 +77,7 @@ class Dashboard extends React.Component {
         ) : null}
         <List>
           {results.map((result, index) => {
-            return (
-              <ListItem key={index + 1} dense>
-                <ListItemText
-                  onMouseOver={this.handlePopoverOpen}
-                  onMouseOut={this.handlePopoverClose}
-                  primary={`
-                  [${result.cost}] 
-                  ${result.name}
-                  `}
-                />
-                {/* <Popover
-                  style={popover}
-                  open={open}
-                  anchorEl={anchorEl}
-                  anchorOrigin={{
-                    vertical: 'bottom',
-                    horizontal: 'left',
-                  }}
-                  transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'left',
-                  }}
-                  onClose={this.handlePopoverClose}> */}
-                <img
-                  src={`https://raw.githubusercontent.com/schmich/hearthstone-card-images/master/rel/${
-                    result.dbfId
-                  }.png`}
-                  width="286"
-                  height="395"
-                />
-                {/* </Popover> */}
-                <Button
-                  size="small"
-                  color="primary"
-                  onClick={() => this.addToDeck(result)}>
-                  Add
-                </Button>
-              </ListItem>
-            );
+            return <Card card={result} />;
           })}
         </List>
       </Grid>
@@ -226,10 +168,6 @@ const searchBar = {
 
 const container = {
   padding: '0 20px 0 20px',
-};
-
-const popover = {
-  pointerEvents: 'none',
 };
 
 export default Dashboard;
