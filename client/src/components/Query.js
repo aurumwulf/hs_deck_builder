@@ -39,13 +39,10 @@ class Query extends React.Component {
         ? results.push(card)
         : null;
     });
-    this.setState({ results: results });
-  };
-
-  sortCards = (cards) => {
-    cards.sort((a, b) => {
+    results.sort((a, b) => {
       return a.cost - b.cost;
     });
+    this.setState({ results: results });
   };
 
   displayNotFound = () => {
@@ -59,6 +56,7 @@ class Query extends React.Component {
       </Typography>
     );
   };
+
   displayResults = () => {
     const { results } = this.state;
     return (
