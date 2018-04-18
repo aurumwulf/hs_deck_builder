@@ -66,7 +66,7 @@ class Dashboard extends React.Component {
   };
 
   displayResults = () => {
-    const { results, anchorEl, popperOpen } = this.state;
+    const { results } = this.state;
 
     return (
       <Grid item xs={6} sm={3}>
@@ -77,20 +77,11 @@ class Dashboard extends React.Component {
         ) : null}
         <List>
           {results.map((result, index) => {
-            return <Card card={result} />;
+            return <Card key={index + 1} card={result} />;
           })}
         </List>
       </Grid>
     );
-  };
-
-  addToDeck = (card) => {
-    const { deck } = this.state;
-    const newDeck = [...deck, card];
-    newDeck.sort((a, b) => {
-      return a.cost - b.cost;
-    });
-    this.setState({ deck: newDeck });
   };
 
   displayDecklist = () => {

@@ -53,14 +53,16 @@ class Card extends React.Component {
           anchorEl={anchorEl}
           anchorOrigin={{
             vertical: 'bottom',
-            horizontal: 'left',
+            horizontal: 'right',
           }}
           transformOrigin={{
             vertical: 'top',
             horizontal: 'left',
           }}
-          onClose={this.handlePopoverClose}>
+          onClose={this.handlePopoverClose}
+          elevation={0}>
           <img
+            style={image}
             src={`https://raw.githubusercontent.com/schmich/hearthstone-card-images/master/rel/${id}.png`}
             width="286"
             height="395"
@@ -76,6 +78,10 @@ class Card extends React.Component {
 
 const popover = {
   pointerEvents: 'none',
+};
+
+const image = {
+  background: 'rgba(0,0,0,0)',
 };
 
 export default Card;
