@@ -3,9 +3,12 @@ import axios from 'axios';
 import {
   Button,
   Grid,
+  Paper,
+  Popover,
   TextField,
   Typography,
 } from 'material-ui';
+import Card, { CardMedia } from 'material-ui/Card';
 import List, {
   ListItem,
   ListItemText,
@@ -13,16 +16,19 @@ import List, {
 
 class Dashboard extends React.Component {
   state = {
-    cards: [],
+    collection: [],
+    filter: [],
     deck: [],
     results: [],
     query: '',
     toggleQuery: false,
+    anchorEl: null,
+    popperOpen: false,
   };
 
   componentDidMount() {
     axios.get('/api/query/').then((res) => {
-      this.setState({ cards: res.data });
+      this.setState({ collection: res.data });
     });
   }
 
@@ -37,10 +43,26 @@ class Dashboard extends React.Component {
     this.setState({ query: '', toggleQuery: true });
   };
 
+  handlePopoverOpen = (e) => {
+    this.setState({ anchorEl: e.target });
+  };
+
+  handlePopoverClose = () => {
+    this.setState({ anchorEl: null });
+  };
+
+  handlePopperOpen = () => {
+    this.setState({ popperOpen: true });
+  };
+
+  handlePopperClose = () => {
+    this.setState({ popperOpen: false });
+  };
+
   queryCards = () => {
-    const { cards, query } = this.state;
+    const { collection, query } = this.state;
     let results = [];
-    cards.map((card) => {
+    collection.map((card) => {
       card.name.toLowerCase().includes(query.toLowerCase())
         ? results.push(card)
         : null;
@@ -63,7 +85,9 @@ class Dashboard extends React.Component {
   };
 
   displayResults = () => {
-    const { results } = this.state;
+    const { results, anchorEl, popperOpen } = this.state;
+    const open = !!anchorEl;
+
     return (
       <Grid item xs={6} sm={3}>
         {results.length !== 0 ? (
@@ -76,11 +100,34 @@ class Dashboard extends React.Component {
             return (
               <ListItem key={index + 1} dense>
                 <ListItemText
+                  onMouseOver={this.handlePopoverOpen}
+                  onMouseOut={this.handlePopoverClose}
                   primary={`
-                    [${result.cost}] 
-                    ${result.name}
+                  [${result.cost}] 
+                  ${result.name}
                   `}
                 />
+                {/* <Popover
+                  style={popover}
+                  open={open}
+                  anchorEl={anchorEl}
+                  anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'left',
+                  }}
+                  transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'left',
+                  }}
+                  onClose={this.handlePopoverClose}> */}
+                <img
+                  src={`https://raw.githubusercontent.com/schmich/hearthstone-card-images/master/rel/${
+                    result.dbfId
+                  }.png`}
+                  width="286"
+                  height="395"
+                />
+                {/* </Popover> */}
                 <Button
                   size="small"
                   color="primary"
@@ -100,15 +147,6 @@ class Dashboard extends React.Component {
     const newDeck = [...deck, card];
     newDeck.sort((a, b) => {
       return a.cost - b.cost;
-    });
-    this.setState({ deck: newDeck });
-  };
-
-  removeFromDeck = (card) => {
-    const { deck } = this.state;
-    let newDeck = [...deck];
-    newDeck = newDeck.filter((c) => {
-      return c.name !== card.name;
     });
     this.setState({ deck: newDeck });
   };
@@ -146,6 +184,15 @@ class Dashboard extends React.Component {
     );
   };
 
+  removeFromDeck = (card) => {
+    const { deck } = this.state;
+    let newDeck = [...deck];
+    newDeck = newDeck.filter((c) => {
+      return c.name !== card.name;
+    });
+    this.setState({ deck: newDeck });
+  };
+
   render() {
     const { results, toggleQuery } = this.state;
     return (
@@ -179,6 +226,10 @@ const searchBar = {
 
 const container = {
   padding: '0 20px 0 20px',
+};
+
+const popover = {
+  pointerEvents: 'none',
 };
 
 export default Dashboard;
