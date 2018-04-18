@@ -11,9 +11,10 @@ import List, {
   ListItemText,
 } from 'material-ui/List';
 
-class Query extends React.Component {
+class Dashboard extends React.Component {
   state = {
     cards: [],
+    deck: [],
     results: [],
     query: '',
     toggleQuery: false,
@@ -53,10 +54,7 @@ class Query extends React.Component {
   displayNotFound = () => {
     return (
       <Grid item xs={12}>
-        <Typography
-          color="blue"
-          variant="button"
-          align="center">
+        <Typography variant="button" align="center">
           V-07-TR-0N C0U7D N0T FIND THE CARD Y0U WERE
           700KING F0R. TRY AGAIN.
         </Typography>
@@ -68,17 +66,77 @@ class Query extends React.Component {
     const { results } = this.state;
     return (
       <Grid item xs={6} sm={3}>
+        {results.length !== 0 ? (
+          <Typography variant="button" align="center">
+            Search Results
+          </Typography>
+        ) : null}
         <List>
           {results.map((result, index) => {
             return (
-              <ListItem>
+              <ListItem key={index + 1} dense>
                 <ListItemText
-                  primary={`[${result.cost}] ${
-                    result.name
-                  }`}
+                  primary={`
+                    [${result.cost}] 
+                    ${result.name}
+                  `}
                 />
-                <Button size="small" color="primary">
+                <Button
+                  size="small"
+                  color="primary"
+                  onClick={() => this.addToDeck(result)}>
                   Add
+                </Button>
+              </ListItem>
+            );
+          })}
+        </List>
+      </Grid>
+    );
+  };
+
+  addToDeck = (card) => {
+    const { deck } = this.state;
+    const newDeck = [...deck, card];
+    newDeck.sort((a, b) => {
+      return a.cost - b.cost;
+    });
+    this.setState({ deck: newDeck });
+  };
+
+  removeFromDeck = (card) => {
+    const { deck } = this.state;
+    let newDeck = [...deck];
+    newDeck = newDeck.filter((c) => {
+      return c.name !== card.name;
+    });
+    this.setState({ deck: newDeck });
+  };
+
+  displayDecklist = () => {
+    const { deck } = this.state;
+    return (
+      <Grid item xs={6} sm={3}>
+        {deck.length !== 0 ? (
+          <Typography variant="button" align="center">
+            Decklist
+          </Typography>
+        ) : null}
+        <List>
+          {deck.map((card, index) => {
+            return (
+              <ListItem key={index + 1} dense>
+                <ListItemText
+                  primary={`
+                    [${card.cost}] 
+                    ${card.name}
+                  `}
+                />
+                <Button
+                  size="small"
+                  color="secondary"
+                  onClick={() => this.removeFromDeck(card)}>
+                  Remove
                 </Button>
               </ListItem>
             );
@@ -108,7 +166,7 @@ class Query extends React.Component {
           {results.length === 0 && toggleQuery === true
             ? this.displayNotFound()
             : this.displayResults()}
-          <Grid />
+          {this.displayDecklist()}
         </Grid>
       </div>
     );
@@ -123,4 +181,4 @@ const container = {
   padding: '0 20px 0 20px',
 };
 
-export default Query;
+export default Dashboard;

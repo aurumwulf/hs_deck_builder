@@ -1,12 +1,12 @@
 import React from 'react';
 import NavBar from './NavBar';
-import Query from './Query';
+import Dashboard from './Dashboard';
 
 const App = () => {
   return (
     <div>
       <NavBar />
-      <Query />
+      <Dashboard />
     </div>
   );
 };
