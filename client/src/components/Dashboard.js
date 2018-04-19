@@ -3,6 +3,7 @@ import axios from 'axios';
 import QueryList from './QueryList';
 import DeckList from './DeckList';
 import { Grid, TextField } from 'material-ui';
+import Statistics from './Statistics';
 
 class Dashboard extends React.Component {
   state = {
@@ -78,7 +79,7 @@ class Dashboard extends React.Component {
             fullWidth
             autoComplete="off"
             name="query"
-            placeholder="(e.g. Ice Block, Jade Idol, Shudderwock, and etc.)"
+            placeholder="(e.g. Grim Patron, Jade Idol, Shudderwock, and etc.)"
             label="Search through the Innkeeper's Hearthstone collection..."
             value={this.state.query}
             onChange={this.handleChange}
@@ -94,6 +95,7 @@ class Dashboard extends React.Component {
             deck={deck}
             removeFromDeck={this.removeFromDeck}
           />
+          <Statistics deck={deck} />
         </Grid>
       </div>
     );

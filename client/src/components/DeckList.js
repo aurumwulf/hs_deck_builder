@@ -12,10 +12,10 @@ class DeckList extends React.Component {
   displayDeckList = () => {
     const { deck, toggleDeck } = this.props;
     return (
-      <Fragment>
+      <Grid item xs={6} sm={3}>
         {deck.length !== 0 ? (
           <Typography variant="button" align="center">
-            Decklist
+            {`Decklist - ${deck.length} / 30`}
           </Typography>
         ) : null}
         <List>
@@ -35,16 +35,12 @@ class DeckList extends React.Component {
             );
           })}
         </List>
-      </Fragment>
+      </Grid>
     );
   };
 
   render() {
-    return (
-      <Grid item xs={6} sm={3}>
-        {this.displayDeckList()}
-      </Grid>
-    );
+    return <Fragment>{this.displayDeckList()}</Fragment>;
   }
 }
 
