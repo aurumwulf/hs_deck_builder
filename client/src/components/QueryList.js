@@ -1,6 +1,12 @@
 import React, { Fragment } from 'react';
 import Card from './Card';
-import { Grid, List, Typography } from 'material-ui';
+import {
+  Button,
+  Grid,
+  List,
+  Typography,
+} from 'material-ui';
+import { ListItem } from 'material-ui/List';
 
 class QueryList extends React.Component {
   displayNotFound = () => {
@@ -27,13 +33,17 @@ class QueryList extends React.Component {
         <List>
           {results.map((result, index) => {
             return (
-              <Card
-                key={index + 1}
-                card={result}
-                toggleDeck={toggleDeck}
-                addToDeck={this.addToDeck}
-                removeFromDeck={this.removeFromDeck}
-              />
+              <ListItem key={result.id} dense>
+                <Card key={index + 1} card={result} />
+                <Button
+                  size="small"
+                  color="primary"
+                  onClick={() =>
+                    this.props.addToDeck(result)
+                  }>
+                  Add
+                </Button>
+              </ListItem>
             );
           })}
         </List>

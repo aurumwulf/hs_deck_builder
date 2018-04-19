@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Button, Popover } from 'material-ui';
 import { ListItem, ListItemText } from 'material-ui/List';
 
@@ -23,7 +23,7 @@ class Card extends React.Component {
     const id = card.dbfId;
 
     return (
-      <ListItem key={card.id} dense>
+      <Fragment>
         <ListItemText
           onMouseOver={this.handlePopoverOpen}
           onMouseOut={this.handlePopoverClose}
@@ -43,13 +43,7 @@ class Card extends React.Component {
             height="395"
           />
         </Popover>
-        <Button
-          size="small"
-          color="primary"
-          onClick={() => this.props.addToDeck(card)}>
-          Add
-        </Button>
-      </ListItem>
+      </Fragment>
     );
   }
 }

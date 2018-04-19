@@ -12,7 +12,6 @@ class Dashboard extends React.Component {
     results: [],
     query: '',
     toggleQuery: false,
-    toggleDeck: false,
   };
 
   componentDidMount() {
@@ -89,9 +88,12 @@ class Dashboard extends React.Component {
           <QueryList
             results={results}
             toggleQuery={toggleQuery}
-            toggleDeck={toggleDeck}
+            addToDeck={this.addToDeck}
           />
-          <DeckList deck={deck} toggleDeck={toggleDeck} />
+          <DeckList
+            deck={deck}
+            removeFromDeck={this.removeFromDeck}
+          />
         </Grid>
       </div>
     );

@@ -1,6 +1,12 @@
 import React, { Fragment } from 'react';
 import Card from './Card';
-import { Grid, List, Typography } from 'material-ui';
+import {
+  Button,
+  Grid,
+  List,
+  Typography,
+} from 'material-ui';
+import { ListItem } from 'material-ui/List';
 
 class DeckList extends React.Component {
   displayDeckList = () => {
@@ -15,13 +21,17 @@ class DeckList extends React.Component {
         <List>
           {deck.map((card, index) => {
             return (
-              <Card
-                key={index + 1}
-                card={card}
-                toggleDeck={toggleDeck}
-                addToDeck={this.addToDeck}
-                removeFromDeck={this.removeFromDeck}
-              />
+              <ListItem key={card.id} dense>
+                <Card key={index + 1} card={card} />
+                <Button
+                  size="small"
+                  color="secondary"
+                  onClick={() =>
+                    this.props.removeFromDeck(card)
+                  }>
+                  Remove
+                </Button>
+              </ListItem>
             );
           })}
         </List>
