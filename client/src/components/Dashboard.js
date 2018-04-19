@@ -12,6 +12,7 @@ class Dashboard extends React.Component {
     deck: [],
     results: [],
     query: '',
+    totalDust: 0,
     toggleQuery: false,
   };
 
@@ -49,23 +50,64 @@ class Dashboard extends React.Component {
   addToDeck = (card) => {
     const { deck } = this.state;
     const newDeck = [...deck, card];
+    let newTotal = this.addToTotal(card);
     newDeck.sort((a, b) => {
       return a.cost - b.cost;
     });
-    this.setState({ deck: newDeck });
+    this.setState({ deck: newDeck, totalDust: newTotal });
   };
 
   removeFromDeck = (card) => {
     const { deck } = this.state;
     let newDeck = [...deck];
+    let newTotal = this.removeFromTotal(card);
     newDeck = newDeck.filter((c) => {
       return c.name !== card.name;
     });
-    this.setState({ deck: newDeck });
+    this.setState({ deck: newDeck, totalDust: newTotal });
+  };
+
+  addToTotal = (card) => {
+    const { totalDust } = this.state;
+    let newTotal = totalDust;
+    switch (card.rarity) {
+      case 'COMMON':
+        return (newTotal += 40);
+      case 'RARE':
+        return (newTotal += 100);
+      case 'EPIC':
+        return (newTotal += 400);
+      case 'LEGENDARY':
+        return (newTotal += 1600);
+      default:
+        return null;
+    }
+  };
+
+  removeFromTotal = (card) => {
+    const { totalDust } = this.state;
+    let newTotal = totalDust;
+    switch (card.rarity) {
+      case 'COMMON':
+        return (newTotal -= 40);
+      case 'RARE':
+        return (newTotal -= 100);
+      case 'EPIC':
+        return (newTotal -= 400);
+      case 'LEGENDARY':
+        return (newTotal -= 1600);
+      default:
+        return null;
+    }
   };
 
   render() {
-    const { deck, results, toggleQuery } = this.state;
+    const {
+      deck,
+      results,
+      toggleQuery,
+      totalDust,
+    } = this.state;
     return (
       <div style={container}>
         <form onSubmit={this.handleSubmit}>
@@ -90,7 +132,7 @@ class Dashboard extends React.Component {
             deck={deck}
             removeFromDeck={this.removeFromDeck}
           />
-          <Statistics deck={deck} />
+          <Statistics deck={deck} totalDust={totalDust} />
         </Grid>
       </div>
     );
