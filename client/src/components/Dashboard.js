@@ -80,7 +80,7 @@ class Dashboard extends React.Component {
       case 'LEGENDARY':
         return (newTotal += 1600);
       default:
-        return null;
+        return newTotal;
     }
   };
 
@@ -97,7 +97,7 @@ class Dashboard extends React.Component {
       case 'LEGENDARY':
         return (newTotal -= 1600);
       default:
-        return null;
+        return newTotal;
     }
   };
 
