@@ -132,6 +132,7 @@ class Dashboard extends React.Component {
             deck={deck}
             removeFromDeck={this.removeFromDeck}
           />
+          <Grid item xs={6} sm={3} />
           <Statistics deck={deck} totalDust={totalDust} />
         </Grid>
       </div>
