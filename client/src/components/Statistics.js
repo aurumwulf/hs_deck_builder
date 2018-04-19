@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import dust from '../images/dust.png';
 import { Grid, Typography } from 'material-ui';
 
 class Statistics extends React.Component {
@@ -14,7 +15,8 @@ class Statistics extends React.Component {
             </Typography>
             <hr />
             <Typography variant="button" align="left">
-              {`Total Dust required to craft Deck: ${totalDust}`}
+              {`Dust required to craft Deck: ${totalDust} `}
+              <img style={image} src={dust} />
             </Typography>
           </Fragment>
         ) : null}
@@ -26,5 +28,12 @@ class Statistics extends React.Component {
     return <Fragment>{this.displayStatistics()}</Fragment>;
   }
 }
+
+const image = {
+  width: '4%',
+  height: '4%',
+  marginTop: '5px',
+  marginLeft: '5px',
+};
 
 export default Statistics;
