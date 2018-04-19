@@ -10,7 +10,7 @@ import { ListItem } from 'material-ui/List';
 
 class DeckList extends React.Component {
   displayDeckList = () => {
-    const { deck, toggleDeck } = this.props;
+    const { deck } = this.props;
     return (
       <Grid item xs={6} sm={3}>
         {deck.length !== 0 ? (

@@ -21,7 +21,7 @@ class QueryList extends React.Component {
   };
 
   displayQueryList = () => {
-    const { results, toggleDeck } = this.props;
+    const { results } = this.props;
 
     return (
       <Grid item xs={6} sm={3}>

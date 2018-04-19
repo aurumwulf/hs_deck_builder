@@ -65,12 +65,7 @@ class Dashboard extends React.Component {
   };
 
   render() {
-    const {
-      deck,
-      toggleDeck,
-      results,
-      toggleQuery,
-    } = this.state;
+    const { deck, results, toggleQuery } = this.state;
     return (
       <div style={container}>
         <form onSubmit={this.handleSubmit}>

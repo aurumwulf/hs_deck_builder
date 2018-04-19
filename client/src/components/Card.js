@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
-import { Button, Popover } from 'material-ui';
-import { ListItem, ListItemText } from 'material-ui/List';
+import { Popover } from 'material-ui';
+import { ListItemText } from 'material-ui/List';
 
 class Card extends React.Component {
   state = {
