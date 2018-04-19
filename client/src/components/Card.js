@@ -51,14 +51,14 @@ class Card extends React.Component {
           style={popover}
           open={open}
           anchorEl={anchorEl}
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'right',
-          }}
-          transformOrigin={{
-            vertical: 'top',
-            horizontal: 'left',
-          }}
+          // anchorOrigin={{
+          //   vertical: 'bottom',
+          //   horizontal: 'right',
+          // }}
+          // transformOrigin={{
+          //   vertical: 'top',
+          //   horizontal: 'left',
+          // }}
           onClose={this.handlePopoverClose}
           elevation={0}>
           <img
@@ -78,10 +78,13 @@ class Card extends React.Component {
 
 const popover = {
   pointerEvents: 'none',
+  left: '380px',
 };
 
 const image = {
   background: 'rgba(0,0,0,0)',
+  marginTop: '20px',
+  marginBottom: '120px',
 };
 
 export default Card;

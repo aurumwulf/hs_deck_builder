@@ -3,6 +3,7 @@ import axios from 'axios';
 import Card from './Card';
 import {
   Button,
+  Divider,
   Grid,
   Popover,
   TextField,
@@ -136,7 +137,7 @@ class Dashboard extends React.Component {
             fullWidth
             autoComplete="off"
             name="query"
-            placeholder="(e.g. Alexstrasza, Grim Patron, Jade Idol, and etc.)"
+            placeholder="(e.g. Ice Block, Jade Idol, Shudderwock, and etc.)"
             label="Search through the Innkeeper's Hearthstone collection..."
             value={this.state.query}
             onChange={this.handleChange}
