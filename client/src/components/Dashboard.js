@@ -1,18 +1,8 @@
 import React from 'react';
 import axios from 'axios';
-import Card from './Card';
-import {
-  Button,
-  Divider,
-  Grid,
-  Popover,
-  TextField,
-  Typography,
-} from 'material-ui';
-import List, {
-  ListItem,
-  ListItemText,
-} from 'material-ui/List';
+import QueryList from './QueryList';
+import DeckList from './DeckList';
+import { Grid, TextField } from 'material-ui';
 
 class Dashboard extends React.Component {
   state = {
@@ -22,6 +12,7 @@ class Dashboard extends React.Component {
     results: [],
     query: '',
     toggleQuery: false,
+    toggleDeck: false,
   };
 
   componentDidMount() {
@@ -37,11 +28,11 @@ class Dashboard extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    this.queryCards();
+    this.queryCollection();
     this.setState({ query: '', toggleQuery: true });
   };
 
-  queryCards = () => {
+  queryCollection = () => {
     const { collection, query } = this.state;
     let results = [];
     collection.map((card) => {
@@ -55,67 +46,13 @@ class Dashboard extends React.Component {
     this.setState({ results: results });
   };
 
-  displayNotFound = () => {
-    return (
-      <Grid item xs={12}>
-        <Typography variant="button" align="center">
-          V-07-TR-0N C0U7D N0T FIND THE CARD Y0U WERE
-          700KING F0R. TRY AGAIN.
-        </Typography>
-      </Grid>
-    );
-  };
-
-  displayResults = () => {
-    const { results } = this.state;
-
-    return (
-      <Grid item xs={6} sm={3}>
-        {results.length !== 0 ? (
-          <Typography variant="button" align="center">
-            Search Results
-          </Typography>
-        ) : null}
-        <List>
-          {results.map((result, index) => {
-            return <Card key={index + 1} card={result} />;
-          })}
-        </List>
-      </Grid>
-    );
-  };
-
-  displayDecklist = () => {
+  addToDeck = (card) => {
     const { deck } = this.state;
-    return (
-      <Grid item xs={6} sm={3}>
-        {deck.length !== 0 ? (
-          <Typography variant="button" align="center">
-            Decklist
-          </Typography>
-        ) : null}
-        <List>
-          {deck.map((card, index) => {
-            return (
-              <ListItem key={index + 1} dense>
-                <ListItemText
-                  primary={`
-                    [${card.cost}] 
-                    ${card.name}
-                  `}
-                />
-                <Button
-                  size="small"
-                  color="secondary"
-                  onClick={() => this.removeFromDeck(card)}>
-                  Remove
-                </Button>
-              </ListItem>
-            );
-          })}
-        </List>
-      </Grid>
-    );
+    const newDeck = [...deck, card];
+    newDeck.sort((a, b) => {
+      return a.cost - b.cost;
+    });
+    this.setState({ deck: newDeck });
   };
 
   removeFromDeck = (card) => {
@@ -128,7 +65,12 @@ class Dashboard extends React.Component {
   };
 
   render() {
-    const { results, toggleQuery } = this.state;
+    const {
+      deck,
+      toggleDeck,
+      results,
+      toggleQuery,
+    } = this.state;
     return (
       <div style={container}>
         <form onSubmit={this.handleSubmit}>
@@ -144,22 +86,24 @@ class Dashboard extends React.Component {
           />
         </form>
         <Grid container spacing={24}>
-          {results.length === 0 && toggleQuery === true
-            ? this.displayNotFound()
-            : this.displayResults()}
-          {this.displayDecklist()}
+          <QueryList
+            results={results}
+            toggleQuery={toggleQuery}
+            toggleDeck={toggleDeck}
+          />
+          <DeckList deck={deck} toggleDeck={toggleDeck} />
         </Grid>
       </div>
     );
   }
 }
 
-const searchBar = {
-  margin: '20px 0 20px 0',
-};
-
 const container = {
   padding: '0 20px 0 20px',
+};
+
+const searchBar = {
+  margin: '20px 0 20px 0',
 };
 
 export default Dashboard;

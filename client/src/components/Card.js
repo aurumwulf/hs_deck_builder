@@ -1,15 +1,6 @@
 import React from 'react';
-import {
-  Button,
-  Grid,
-  Popover,
-  TextField,
-  Typography,
-} from 'material-ui';
-import List, {
-  ListItem,
-  ListItemText,
-} from 'material-ui/List';
+import { Button, Popover } from 'material-ui';
+import { ListItem, ListItemText } from 'material-ui/List';
 
 class Card extends React.Component {
   state = {
@@ -25,17 +16,8 @@ class Card extends React.Component {
     this.setState({ anchorEl: null });
   };
 
-  // addToDeck = (card) => {
-  //   const { deck } = this.state;
-  //   const newDeck = [...deck, card];
-  //   newDeck.sort((a, b) => {
-  //     return a.cost - b.cost;
-  //   });
-  //   this.setState({ deck: newDeck });
-  // };
-
   render() {
-    const { anchorEl, popperOpen } = this.state;
+    const { anchorEl } = this.state;
     const open = !!anchorEl;
     const { card } = this.props;
     const id = card.dbfId;
@@ -51,24 +33,20 @@ class Card extends React.Component {
           style={popover}
           open={open}
           anchorEl={anchorEl}
-          // anchorOrigin={{
-          //   vertical: 'bottom',
-          //   horizontal: 'right',
-          // }}
-          // transformOrigin={{
-          //   vertical: 'top',
-          //   horizontal: 'left',
-          // }}
           onClose={this.handlePopoverClose}
           elevation={0}>
           <img
             style={image}
             src={`https://raw.githubusercontent.com/schmich/hearthstone-card-images/master/rel/${id}.png`}
+            alt={card.flavor}
             width="286"
             height="395"
           />
         </Popover>
-        <Button size="small" color="primary">
+        <Button
+          size="small"
+          color="primary"
+          onClick={() => this.props.addToDeck(card)}>
           Add
         </Button>
       </ListItem>
@@ -78,7 +56,7 @@ class Card extends React.Component {
 
 const popover = {
   pointerEvents: 'none',
-  left: '380px',
+  left: '340px',
 };
 
 const image = {
