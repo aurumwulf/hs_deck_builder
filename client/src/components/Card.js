@@ -50,13 +50,13 @@ class Card extends React.Component {
 
 const popover = {
   pointerEvents: 'none',
-  left: '340px',
+  left: '330px',
 };
 
 const image = {
   background: 'rgba(0,0,0,0)',
   marginTop: '20px',
-  marginBottom: '120px',
+  marginBottom: '100px',
 };
 
 export default Card;

@@ -50,11 +50,24 @@ class Dashboard extends React.Component {
   addToDeck = (card) => {
     const { deck } = this.state;
     const newDeck = [...deck, card];
-    let newTotal = this.addToTotal(card);
-    newDeck.sort((a, b) => {
-      return a.cost - b.cost;
+    if (this.checkCardsInDeck(card) === 2) {
+      return alert('Cannot add more than 2.');
+    } else {
+      let newTotal = this.addToTotal(card);
+      newDeck.sort((a, b) => {
+        return a.cost - b.cost;
+      });
+      this.setState({ deck: newDeck, totalDust: newTotal });
+    }
+  };
+
+  checkCardsInDeck = (card) => {
+    let count = 0;
+    const { deck } = this.state;
+    deck.map((c) => {
+      c.id === card.id ? (count += 1) : null;
     });
-    this.setState({ deck: newDeck, totalDust: newTotal });
+    return count;
   };
 
   removeFromDeck = (card) => {
@@ -102,12 +115,7 @@ class Dashboard extends React.Component {
   };
 
   render() {
-    const {
-      deck,
-      results,
-      toggleQuery,
-      totalDust,
-    } = this.state;
+    const { deck, results, toggleQuery, totalDust } = this.state;
     return (
       <div style={container}>
         <form onSubmit={this.handleSubmit}>
@@ -128,10 +136,7 @@ class Dashboard extends React.Component {
             toggleQuery={toggleQuery}
             addToDeck={this.addToDeck}
           />
-          <DeckList
-            deck={deck}
-            removeFromDeck={this.removeFromDeck}
-          />
+          <DeckList deck={deck} removeFromDeck={this.removeFromDeck} />
           <Grid item xs={6} sm={3} />
           <Statistics deck={deck} totalDust={totalDust} />
         </Grid>
