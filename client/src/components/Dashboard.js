@@ -4,6 +4,7 @@ import QueryList from './QueryList';
 import DeckList from './DeckList';
 import { Grid, TextField } from 'material-ui';
 import Statistics from './Statistics';
+import Alert from './Alert';
 
 class Dashboard extends React.Component {
   state = {
@@ -51,7 +52,7 @@ class Dashboard extends React.Component {
     const { deck } = this.state;
     const newDeck = [...deck, card];
     if (this.checkCardsInDeck(card) === 2) {
-      return alert('Cannot add more than 2.');
+      return <Alert />;
     } else {
       let newTotal = this.addToTotal(card);
       newDeck.sort((a, b) => {
